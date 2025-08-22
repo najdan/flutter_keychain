@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 class FlutterKeychain {
-  static const MethodChannel _channel = const MethodChannel('plugin.appmire.be/flutter_keychain');
+  static const MethodChannel _channel = const MethodChannel('flutter_keychain_channel');
 
   // put - store the value for a key
   static Future<void> put({required String key, required String? value}) async {

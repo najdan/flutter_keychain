@@ -281,7 +281,7 @@ class FlutterKeychainPlugin : FlutterPlugin, MethodCallHandler {
     private val WRAPPED_AES_KEY_ITEM = "W0n5hlJtrAH0K8mIreDGxtG"
 
     companion object {
-        private const val channelName = "plugin.appmire.be/flutter_keychain"
+        private const val channelName = "flutter_keychain_channel"
 
         lateinit private var encryptor: StringEncryptor
         lateinit private var preferences: SharedPreferences
@@ -320,21 +320,25 @@ class FlutterKeychainPlugin : FlutterPlugin, MethodCallHandler {
                     val value = encryptor.decrypt(encryptedValue)
                     result.success(value)
                 }
+
                 "put" -> {
                     val value = encryptor.encrypt(call.value())
                     preferences.edit().putString(call.key(), value).commit()
                     result.success(null)
                 }
+
                 "remove" -> {
                     preferences.edit().remove(call.key()).commit()
                     result.success(null)
                 }
+
                 "clear" -> {
                     val savedValue: String? = preferences.getString(WRAPPED_AES_KEY_ITEM, null)
                     preferences.edit().clear().commit()
                     preferences.edit().putString(WRAPPED_AES_KEY_ITEM, savedValue).commit()
                     result.success(null)
                 }
+
                 else -> result.notImplemented()
             }
         } catch (e: Exception) {

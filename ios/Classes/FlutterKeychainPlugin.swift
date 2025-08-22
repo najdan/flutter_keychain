@@ -2,12 +2,12 @@ import Flutter
 import Security
 import UIKit
 
-private let CHANNEL_NAME = "plugin.appmire.be/flutter_keychain"
+private let CHANNEL_NAME = "flutter_keychain_channel"
 
 public class FlutterKeychainPlugin: NSObject, FlutterPlugin {
-    
+
     final let _keychain = Keychain()
-    
+
     /// `FlutterMethodChannel`
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: CHANNEL_NAME, binaryMessenger: registrar.messenger())
@@ -47,7 +47,7 @@ public class FlutterKeychainPlugin: NSObject, FlutterPlugin {
         else { throw KeychainError.operationFailed(status: -50, message: "GET_MISSING_KEY") }
         result(try _keychain.get(key: key))
     }
-    
+
     /// `_put`
     private func _put(call :FlutterMethodCall , result: @escaping FlutterResult) throws {
         guard let args = call.arguments as? [String: Any],
@@ -63,7 +63,7 @@ public class FlutterKeychainPlugin: NSObject, FlutterPlugin {
         }
         result(try _keychain.put(value: value, forKey: key))
     }
-    
+
     /// `_remove`
     private func _remove(call :FlutterMethodCall , result: @escaping FlutterResult) throws {
         guard let args = call.arguments as? [String: Any],
@@ -72,7 +72,7 @@ public class FlutterKeychainPlugin: NSObject, FlutterPlugin {
         try _keychain.remove(key: key)
         result(nil)
     }
-    
+
     /// `_clear`
     private func _clear(result: @escaping FlutterResult) throws {
          try _keychain.clear()
